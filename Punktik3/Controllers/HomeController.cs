@@ -1,26 +1,21 @@
-using Punktik3.Models;
+using System.Data.OleDb;
 using Microsoft.AspNetCore.Mvc;
 using Punktik3.Models;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.OleDb;
-using Microsoft.DotNet.Scaffolding.Shared;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Dbase3Viewer.Controllers
+namespace Punktik3.Controllers
 {
-    public class EmployeesController : Controller
+    public class WagesController : Controller
     {
         public IActionResult Index()
         {
-            List<Employee> employees = GetEmployeesFromDatabase();
-            return View(employees);
+            List<Wages> wages = GetWagesFromDatabase();
+            return View(wages);
         }
-        private List<Employee> GetEmployeesFromDatabase()
+        private List<Wages> GetWagesFromDatabase()
         {
             string connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\\DB\\DBASE;Extended Properties=dBASE III;";
-            string query = "SELECT LastName, Phone, Departure, Cost, TravelPlan FROM Travel;";
-            List<Employee> employees = new List<Employee>();
+            string query = "SELECT Name, Check_Date, Pay_Rate, Net_Pay, Fica FROM Wages;";
+            List<Wages> wages = new List<Wages>();
 
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
@@ -30,21 +25,21 @@ namespace Dbase3Viewer.Controllers
 
                 while (reader.Read())
                 {
-                    Employee employee = new Employee
+                    Wages wage = new Wages
                     {
-                        LASTNAME = reader.GetString(0),
-                        PHONE = reader.GetString(1),
-                        DEPARTURE = DateOnly.FromDateTime(reader.GetDateTime(2)),
-                        Cost=reader.GetValue(3),
-                        TravelPlan=reader.GetString(4)
+                        Name = reader.GetValue(0),
+                        Check_Date = reader.GetValue(1),
+                        Pay_Rate = reader.GetValue(2),
+                        Net_Pay = reader.GetValue(3),
+                        Fica= reader.GetValue(4)
 
 
                     };
-                    employees.Add(employee);
+                    wages.Add(wage);
                 }
             }
 
-            return employees;
+            return wages;
         }
     }
 }

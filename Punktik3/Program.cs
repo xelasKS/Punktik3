@@ -1,4 +1,4 @@
-// В файле Program.cs (для .NET 6.0 и выше)
+// Р’ С„Р°Р№Р»Рµ Program.cs (РґР»СЏ .NET 6.0 Рё РІС‹С€Рµ)
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -22,6 +22,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Employees}/{action=Index}/{id?}");
+    pattern: "{controller=Wages}/{action=Index}/{id?}");
 
 app.Run();
